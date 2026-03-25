@@ -1613,10 +1613,22 @@ async def ayuda_tienda(interaction: discord.Interaction) -> None:
     )
     embed.set_footer(text="Usa el panel con botones para una experiencia más cómoda")
     await interaction.response.send_message(embed=embed, ephemeral=True)
+import discord
 
+intents = discord.Intents.default()
+bot = discord.Client(intents=intents)
 
-if __name__ == "__main__":
-    TOKEN = "MTQ4NTczNjM1NjM4NTY1Mjg0MQ.GIO51s.fsBF7dY0QQ_nOkfNWMyBWMQdZgzAY00WXbw_VY"
-    if not TOKEN:
-        raise RuntimeError("Debes configurar la variable de entorno DISCORD_TOKEN")
-    bot.run(TOKEN)
+@bot.event
+async def on_ready():
+    print(f'Conectado como {bot.user}')
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if message.content == "!hola":
+        await message.channel.send("Hola 👋")
+
+bot.run("MTQ4NTczNjM1NjM4NTY1Mjg0MQ.GIO51s.fsBF7dY0QQ_nOkfNWMyBWMQdZgzAY00WXbw_VY")
+   
